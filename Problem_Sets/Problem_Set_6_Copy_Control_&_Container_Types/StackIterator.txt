@@ -1,0 +1,55 @@
+
+#pragma once
+#include "Stack.h"
+template<class T>
+class StackIterator
+{
+private:
+	Stack<T> fStack;
+public:
+	StackIterator(const Stack<T>& aStack)
+	{
+		fStack = aStack;
+	}
+
+	const T& operator*() const // dereference
+	{
+		return fStack.top();
+	}
+
+	StackIterator& operator++() // prefix increment
+	{
+		fStack.pop();
+		return *this;
+	}
+
+	StackIterator operator++(int) // postfix increment
+	{
+		StackIterator* temp = this;
+		++(*this);
+		return *temp;
+	}
+
+	bool operator==(const StackIterator& aOtherIter) const
+	{
+		return (fStack.size == aOtherIter.fStack.size() && fStack.top() == aOtherIter.fStack.top());
+	}
+
+	bool operator!=(const StackIterator& aOtherIter) const
+	{
+		return (fStack.size() != aOtherIter.fStack.size() && fStack.top() != aOtherIter.fStack.top());
+	}
+
+	StackIterator begin() const // new iterator (at first element)
+	{
+		StackIterator* result = new StackIterator(fStack);
+		return *result;
+	}
+
+	StackIterator end() const
+	{
+		Stack<T> temp;
+		StackIterator* result = new StackIterator(temp);
+		return *result;
+	}
+};
